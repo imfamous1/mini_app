@@ -1,3 +1,5 @@
+import json
+
 import telebot
 from telebot.types import ReplyKeyboardMarkup, WebAppInfo, KeyboardButton
 
@@ -11,6 +13,13 @@ def welcome_message(message):
     button = KeyboardButton(text="Открыть Mini App", web_app=web_app)
     keyboard.add(button)
     bot.send_message(message.from_user.id, "Запусти приложение по кнопке ниже:", reply_markup=keyboard)
+
+
+@bot.message_handler(content_types=['web_app_data'])
+def web_app_data_handler(message):
+    data = json.loads(message.web_app_data.data)
+    bot.send_message(message.from_user.id, f"Пользователь накликал: {data['value']}")
+    print(f"Полученные данные с Mini App {data['value']}")
 
 
 bot.polling()
