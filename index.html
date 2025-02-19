@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+        }
+        p {
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Привет гость!</h1>
+    <button onclick="update_counter()">Увеличить счётчик</button>
+    <button>Передать счетчик в бота</button>
+    <button>Закрыть приложение</button>
+    <p id="counter">0</p>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        console.log(tg);
+
+        // COUNTER
+        let counter = 0;
+        let preview_counter = document.getElementById("counter");
+        function update_counter() {
+            counter++;
+            preview_counter.textContent = counter;
+        }
+
+        // CLOSE MINI APP
+        function close_app() {
+            tg.close()
+        }
+
+        // SEND DATA TO BOT
+        function send_data() {
+            tg.sendData(JSON.stringify({
+                action: "counter_update",
+                value: counter,
+            }));
+        }
+
+    </script>
+</body>
+</html>
